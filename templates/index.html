@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Livestock Breed Recognition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 900px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            width: 70%;
+        }
+
+        button {
+            padding: 10px 25px;
+            border-radius: 8px;
+            border: none;
+            background: #00c6ff;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .result-section {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .image-box img {
+            width: 350px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .prediction-box {
+            flex: 1;
+        }
+
+        .prediction-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #00ff87, #60efff);
+            border-radius: 10px;
+        }
+
+        .warning {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.2);
+            border-left: 4px solid red;
+            border-radius: 8px;
+        }
+
+        @media(max-width: 900px) {
+            .container {
+                width: 90%;
+            }
+            .result-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .image-box img {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🐄 Livestock Breed Recognition</h1>
+
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" required><br>
+        <button type="submit">Predict Breed</button>
+    </form>
+
+    {% if top_predictions %}
+    <div class="result-section">
+
+        <!-- Image -->
+        <div class="image-box">
+            <h3>Uploaded Image</h3>
+            <img src="{{ image_path }}">
+        </div>
+
+        <!-- Predictions -->
+        <div class="prediction-box">
+            <h3>Top Predictions</h3>
+
+            {% for item in top_predictions %}
+            <div class="prediction-item">
+                <strong>{{ item.breed }}</strong> ({{ item.confidence }})
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ item.confidence * 100 }}%;"></div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% if low_confidence %}
+            <div class="warning">
+                ⚠ Low confidence detected. Please upload a clearer image.
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

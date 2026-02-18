@@ -1,0 +1,22 @@
+# Dataset
+dataset/
+data/
+
+# YOLO training outputs
+runs/
+
+# Model weights
+*.pt
+
+# Images (dataset images)
+*.jpg
+*.jpeg
+*.png
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment files
+venv/
+.env
