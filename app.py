@@ -12,7 +12,7 @@ secure_filename() - if user enters a dangerous filename it renames the dangerous
 
 app = Flask(__name__)
 
-model = YOLO("runs/classify/cow_breed_project/yolov8m_cls_exp3/weights/best.pt")
+model = YOLO("model/best.pt")
 
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
